@@ -1,4 +1,4 @@
-# Pasos rápidos para ejecutar en un portátil nuevo
+# Pasos rápidos para ejecutar
 
 1) Requisitos previos
 - Node.js 22+ y npm instalados.
@@ -6,8 +6,8 @@
 
 2) Clonar y preparar dependencias
 ```bash
-git clone https://github.com/benipr14/TFG.git
-cd TFG
+git clone https://github.com/benipr14/SSBW.git
+cd SSBW
 npm install
 ```
 
@@ -42,5 +42,3 @@ La app queda en http://localhost:3000
 ```bash
 curl -s "http://localhost:3000/api/productos?desde=1&hasta=20&ordenacion=asc" | jq
 ```
-
-Listo: con estos pasos debe funcionar en cualquier portátil con Docker y Node.
