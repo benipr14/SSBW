@@ -1,0 +1,30 @@
+@baseUrl = http://localhost:3000
+
+### Listar productos con paginación y ordenación
+GET {{baseUrl}}/api/productos?desde=1&hasta=20&ordenacion=ascendente
+
+### Obtener un producto por id
+GET {{baseUrl}}/api/productos/1
+
+### Crear un producto
+POST {{baseUrl}}/api/productos
+Content-Type: application/json
+
+{
+  "titulo": "Producto API",
+  "descripcion": "Creado desde REST Client",
+  "precio": 19.99,
+  "imagen": "placeholder.jpg"
+}
+
+### Actualizar un producto
+PUT {{baseUrl}}/api/producto/1
+Content-Type: application/json
+
+{
+  "precio": 9.99,
+  "descripcion": "Precio ajustado desde REST Client"
+}
+
+### Eliminar un producto
+DELETE {{baseUrl}}/api/productos/1

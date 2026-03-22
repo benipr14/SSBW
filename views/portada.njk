@@ -1,0 +1,35 @@
+{% extends "base.njk" %}
+
+{% block content %}
+  <section class="mb-4">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <p class="text-uppercase text-secondary small mb-1">Impresiones</p>
+        <h1 class="fw-bold mb-2">Colección del Museo del Prado</h1>
+        <p class="text-muted mb-0">Portada generada en servidor con Express + Prisma + Nunjucks. Usa las búsquedas para filtrar por título o descripción.</p>
+        {% if busqueda %}
+          <p class="mt-2 mb-0"><span class="badge bg-info text-dark">Búsqueda: "{{ busqueda }}"</span></p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if cards | length == 0 %}
+    <div class="alert alert-warning">No se encontraron productos.</div>
+  {% else %}
+  <div class="row g-3">
+    {% for card in cards %}
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100 shadow-sm">
+        <img src="/public/imagenes/{{ card.imagen }}" class="card-img-top" alt="{{ card.titulo }}">
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-title mb-1">{{ card.titulo }}</h6>
+          <p class="text-primary fw-bold mb-2">{{ card.precio | round(2) }} €</p>
+          <a class="btn btn-outline-primary mt-auto" href="/producto/{{ card.id }}">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endblock %}
