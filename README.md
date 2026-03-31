@@ -12,7 +12,7 @@ npm install
 ```
 
 3) Configurar entorno
-- Asegúrate de tener un `.env` con la conexión a Postgres. El repo incluye uno de ejemplo:
+- Asegurarse de tener un `.env` con la conexión a Postgres. El repo incluye uno de ejemplo:
 ```
 PORT=3000
 POSTGRES_USER=ssbw_user
