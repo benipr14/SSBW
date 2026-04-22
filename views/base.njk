@@ -26,16 +26,40 @@
           {% else %}
             <a class="btn btn-outline-primary" href="/login">Iniciar sesión</a>
           {% endif %}
-          <a class="btn btn-outline-secondary position-relative" href="#" aria-label="Carrito">
+          <button class="btn btn-outline-secondary position-relative" id="abrirCarrito" type="button" data-bs-toggle="offcanvas" data-bs-target="#carritoOffcanvas" aria-controls="carritoOffcanvas" aria-label="Abrir carrito">
             🛒
-            {% if total_carrito and total_carrito > 0 %}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ total_carrito }}</span>
-            {% endif %}
-          </a>
+            <span id="badgeCarrito" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger {% if not total_carrito or total_carrito <= 0 %}d-none{% endif %}">{{ total_carrito or 0 }}</span>
+          </button>
         </div>
       </div>
     </div>
   </nav>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="carritoOffcanvas" aria-labelledby="carritoOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="carritoOffcanvasLabel">Tu carrito</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div id="carritoVacio" class="text-muted small">No hay productos en el carrito.</div>
+      <div id="carritoLista" class="d-grid gap-2"></div>
+      <div class="border-top mt-3 pt-3 d-flex justify-content-between">
+        <span class="fw-semibold">Total</span>
+        <span id="carritoTotal">0,00 €</span>
+      </div>
+    </div>
+  </div>
+
+  <template id="tplCarritoItem">
+    <article class="border rounded p-2 d-flex gap-2 align-items-start">
+      <img data-field="imagen" src="" alt="" width="52" height="52" class="rounded object-fit-cover">
+      <div class="flex-grow-1">
+        <div class="fw-semibold" data-field="titulo"></div>
+        <div class="small text-muted" data-field="detalle"></div>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-danger" data-action="eliminar">Eliminar</button>
+    </article>
+  </template>
 
   <main class="py-4">
     <div class="container">
@@ -50,5 +74,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/carrito-offcanvas.js"></script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>

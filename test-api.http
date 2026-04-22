@@ -28,3 +28,9 @@ Content-Type: application/json
 
 ### Eliminar un producto
 DELETE {{baseUrl}}/api/productos/1
+
+### Ver carrito actual (sesión)
+GET {{baseUrl}}/api/carrito
+
+### Eliminar un producto del carrito por id
+DELETE {{baseUrl}}/api/carrito/1

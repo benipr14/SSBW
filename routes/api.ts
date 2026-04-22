@@ -6,6 +6,8 @@ const router = express.Router();
 
 type Orden = "asc" | "desc";
 
+type CarritoItem = { id: number; cantidad: number };
+
 function mapProducto(record: { id: number; título: string; descripción: string; precio: any; imagen: string }) {
   return {
     id: record.id,
@@ -40,6 +42,95 @@ function ordenFromQuery(raw: unknown): Orden {
   if (norm === "desc" || norm === "descendente") return "desc";
   return "asc";
 }
+
+function totalCarrito(carrito: CarritoItem[] | undefined): number {
+  return carrito?.reduce((acc, item) => acc + (item.cantidad || 0), 0) ?? 0;
+}
+
+async function buildCarritoResponse(carrito: CarritoItem[] | undefined) {
+  const base = carrito ?? [];
+  const acumulado = new Map<number, number>();
+  for (const item of base) {
+    const actual = acumulado.get(item.id) ?? 0;
+    acumulado.set(item.id, actual + item.cantidad);
+  }
+
+  const ids = Array.from(acumulado.keys());
+  if (ids.length === 0) {
+    return {
+      data: [],
+      meta: { total_items: 0, total_importe: 0 }
+    };
+  }
+
+  const productos = await prisma.producto.findMany({
+    where: { id: { in: ids } },
+    select: { id: true, título: true, precio: true, imagen: true },
+    orderBy: { id: "asc" }
+  });
+
+  const data = productos.map((producto) => {
+    const cantidad = acumulado.get(producto.id) ?? 0;
+    const precio = typeof producto.precio === "number" ? producto.precio : Number(producto.precio);
+    return {
+      id: producto.id,
+      titulo: producto.título,
+      precio,
+      imagen: producto.imagen,
+      cantidad,
+      subtotal: Number((precio * cantidad).toFixed(2))
+    };
+  });
+
+  const totalImporte = data.reduce((acc, item) => acc + item.subtotal, 0);
+
+  return {
+    data,
+    meta: {
+      total_items: totalCarrito(base),
+      total_importe: Number(totalImporte.toFixed(2))
+    }
+  };
+}
+
+router.get("/carrito", async (req: Request, res: Response) => {
+  try {
+    const payload = await buildCarritoResponse(req.session.carrito);
+    req.session.total_carrito = payload.meta.total_items;
+    res.locals.total_carrito = payload.meta.total_items;
+    res.json(payload);
+  } catch (error: any) {
+    logger.error(`GET /api/carrito error: ${error?.message ?? error}`);
+    res.status(500).json({ error: "Error al obtener carrito" });
+  }
+});
+
+router.delete("/carrito/:id", async (req: Request, res: Response) => {
+  const id = parseId(req.params.id);
+  if (id === null) {
+    return res.status(400).json({ error: "Id inválido" });
+  }
+
+  const carrito = req.session.carrito ?? [];
+  const nuevoCarrito = carrito.filter((item) => item.id !== id);
+
+  if (nuevoCarrito.length === carrito.length) {
+    return res.status(404).json({ error: "Producto no está en el carrito" });
+  }
+
+  req.session.carrito = nuevoCarrito;
+  const total = totalCarrito(nuevoCarrito);
+  req.session.total_carrito = total;
+  res.locals.total_carrito = total;
+
+  try {
+    const payload = await buildCarritoResponse(nuevoCarrito);
+    res.json(payload);
+  } catch (error: any) {
+    logger.error(`DELETE /api/carrito/${id} error: ${error?.message ?? error}`);
+    res.status(500).json({ error: "Error al eliminar producto del carrito" });
+  }
+});
 
 router.get("/productos", async (req: Request, res: Response) => {
   const desdeRaw = req.query.desde;
