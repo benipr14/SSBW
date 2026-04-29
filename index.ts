@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
+import cors from "cors";
 import nunjucks from "nunjucks";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +27,11 @@ nunjucks.configure(path.join(__dirname, "views"), {
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/public/imagenes", express.static(path.join(__dirname, "imagenes")));
+
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN ?? "http://localhost:5173",
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

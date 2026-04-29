@@ -47,6 +47,38 @@ function totalCarrito(carrito: CarritoItem[] | undefined): number {
   return carrito?.reduce((acc, item) => acc + (item.cantidad || 0), 0) ?? 0;
 }
 
+function getBaseUrl(req: Request): string {
+  return `${req.protocol}://${req.get("host")}`;
+}
+
+router.get("/imagen-aleatoria", async (req: Request, res: Response) => {
+  try {
+    const total = await prisma.producto.count();
+    if (total === 0) {
+      return res.status(404).json({ error: "No hay productos disponibles" });
+    }
+
+    const offset = Math.floor(Math.random() * total);
+    const [producto] = await prisma.producto.findMany({
+      skip: offset,
+      take: 1,
+      select: { título: true, imagen: true }
+    });
+
+    if (!producto) {
+      return res.status(404).json({ error: "No se pudo obtener una imagen aleatoria" });
+    }
+
+    res.json({
+      titulo: producto.título,
+      imagenUrl: `${getBaseUrl(req)}/public/imagenes/${producto.imagen}`
+    });
+  } catch (error: any) {
+    logger.error(`GET /api/imagen-aleatoria error: ${error?.message ?? error}`);
+    res.status(500).json({ error: "Error al obtener imagen aleatoria" });
+  }
+});
+
 async function buildCarritoResponse(carrito: CarritoItem[] | undefined) {
   const base = carrito ?? [];
   const acumulado = new Map<number, number>();
