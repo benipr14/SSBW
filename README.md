@@ -29,8 +29,8 @@ docker compose -f docker-compose-prod.yml exec tienda-prado npm run users:seed
 ```
 
 ## Navegación y URLs
-- **Tienda Principal (React/Express)**: [http://localhost](http://localhost)
-- **Sitio Astro (Tareas 11 y 12)**: [http://localhost:4321](http://localhost:4321)
+- **Tienda Principal (React/Express)**: [http://localhost](http://localhost) (hasta tarea 10)
+- **Sitio Astro (Tareas 11 y 12)**: [http://localhost:4321/ssg](http://localhost:4321/ssg) (hasta tarea 12)
 
 ---
 
