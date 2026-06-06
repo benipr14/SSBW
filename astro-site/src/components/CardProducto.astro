@@ -1,0 +1,20 @@
+---
+type Props = {
+  título: string;
+  texto_precio: string;
+  imagen: string;
+  slug: string;
+};
+
+const { título, texto_precio, imagen, slug } = Astro.props as Props;
+---
+<article class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+  <a href={`/productos/${slug}`} class="block">
+    <img src={`/images/${imagen}`} alt={título} class="h-56 w-full object-cover" />
+    <div class="p-4">
+      <h3 class="text-base font-semibold text-slate-900">{título}</h3>
+      <p class="mt-2 text-sm font-medium text-emerald-700">{texto_precio}</p>
+      <span class="mt-3 inline-flex text-sm font-semibold text-indigo-600">Ver detalle →</span>
+    </div>
+  </a>
+</article>

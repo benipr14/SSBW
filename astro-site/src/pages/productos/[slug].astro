@@ -1,0 +1,41 @@
+---
+import LayoutPrado from '../../layouts/LayoutPrado.astro';
+import productos from '../../data/productos.json';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  return productos.map((producto) => ({
+    params: { slug: slugify(producto.titulo) },
+    props: { producto }
+  }));
+}
+
+const { producto } = Astro.props as {
+  producto: {
+    titulo: string;
+    descripcion: string;
+    texto_precio: string;
+    imagen: string;
+  };
+};
+---
+<LayoutPrado title={`SSBW · ${producto.titulo}`}>
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <div class="grid gap-8 lg:grid-cols-2 lg:items-start">
+      <div class="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl">
+        <img src={`/images/${producto.imagen}`} alt={producto.titulo} class="h-full w-full object-cover" />
+      </div>
+      <article class="rounded-3xl bg-white p-8 shadow-xl shadow-slate-200">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Detalle del producto</p>
+        <h1 class="mt-2 text-3xl font-bold text-slate-900">{producto.titulo}</h1>
+        <p class="mt-4 text-lg font-semibold text-emerald-700">{producto.texto_precio}</p>
+        <p class="mt-6 whitespace-pre-line text-slate-600">{producto.descripcion}</p>
+        <div class="mt-8">
+          <a href="/ssg" class="inline-flex rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+            Volver a destacados
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+</LayoutPrado>

@@ -1,0 +1,27 @@
+---
+import '../assets/app.css';
+const { title = 'Tienda Prado · Astro' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 text-sm">
+        <a href="/" class="font-bold tracking-wide text-slate-900">Tienda Prado</a>
+        <div class="flex gap-4 text-slate-600">
+          <a href="/" class="hover:text-slate-900">Portada</a>
+          <a href="/carrousel" class="hover:text-slate-900">Carrousel</a>
+          <a href="/ssg" class="hover:text-slate-900">SSG</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

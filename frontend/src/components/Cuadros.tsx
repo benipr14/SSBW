@@ -5,7 +5,7 @@ type StoreImageResponse = {
   imagenUrl: string;
 };
 
-const API_URL = import.meta.env.VITE_STORE_API_URL ?? "http://localhost:3000/api/imagen-aleatoria";
+const API_URL = import.meta.env.VITE_STORE_API_URL ?? "/api/imagen-aleatoria";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url, { headers: { Accept: "application/json" } });

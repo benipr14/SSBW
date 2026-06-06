@@ -1,9 +1,23 @@
 node_modules/
 .env
+.env.*
+!.env.example
 npm-debug.log*
 .DS_Store
-generated/
-logs/
-frontend/dist/
 
+# Prisma
+generated/
 /generated/prisma
+
+# Logs
+logs/
+*.log
+
+# Frontend & Astro
+dist/
+/frontend/dist/
+/astro-site/dist/
+/astro-site/.astro/
+
+# Docker
+postgres_data/

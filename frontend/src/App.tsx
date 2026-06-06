@@ -1,29 +1,11 @@
-import Perritos from "./components/Perritos";
-import Cuadros from "./components/Cuadros";
-
-function App() {
+// App kept for backward compat; use pages with Router instead
+export default function App() {
   return (
     <main className="min-h-screen px-4 py-10 text-slate-800">
-      <section className="mx-auto flex max-w-6xl flex-col items-center gap-8">
-        <header className="text-center">
-          <p className="mb-2 text-sm font-bold uppercase tracking-[0.35em] text-indigo-500">
-            Tarea 9 · SPA con Vite, React y Tailwind
-          </p>
-          <h1 className="font-garamond text-5xl italic text-slate-900 md:text-6xl">
-            Galería de Tienda Prado
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 md:text-base">
-            Dos componentes React: uno consume una API externa de perritos y el otro una API de la tienda.
-          </p>
-        </header>
-
-        <div className="grid w-full gap-6 md:grid-cols-2">
-          <Perritos />
-          <Cuadros />
-        </div>
+      <section className="mx-auto max-w-3xl text-center">
+        <h2 className="text-2xl font-bold">App container — use routes</h2>
+        <p className="mt-2 text-sm text-slate-600">Use the navigation links to open the pages.</p>
       </section>
     </main>
-  );
+  )
 }
-
-export default App;

@@ -1,0 +1,26 @@
+{
+  "name": "ssbw-astro",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.13.7",
+    "@astrojs/react": "^4.4.0",
+    "@tailwindcss/vite": "^4.1.17",
+    "daisyui": "^4.12.24",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "swr": "^2.3.6",
+    "embla-carousel-react": "^8.1.1",
+    "embla-carousel": "^8.1.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3"
+  }
+}

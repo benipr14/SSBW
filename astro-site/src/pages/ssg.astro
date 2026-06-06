@@ -1,0 +1,28 @@
+---
+import LayoutPrado from '../layouts/LayoutPrado.astro';
+import CardProducto from '../components/CardProducto.astro';
+import productos from '../data/productos.json';
+import { slugify } from '../utils/slug';
+
+const destacados = productos.slice(0, 12);
+---
+<LayoutPrado title="SSBW · SSG">
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <div class="mb-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-[0.35em] text-indigo-500">Tarea 12</p>
+      <h1 class="mt-2 font-garamond text-4xl italic tracking-widest text-slate-700">Destacados</h1>
+      <p class="mt-3 text-slate-600">Selección de 12 productos generada estáticamente con Astro.</p>
+    </div>
+
+    <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {destacados.map((producto) => (
+        <CardProducto
+          título={producto.titulo}
+          texto_precio={producto.texto_precio}
+          imagen={producto.imagen}
+          slug={slugify(producto.titulo)}
+        />
+      ))}
+    </section>
+  </section>
+</LayoutPrado>

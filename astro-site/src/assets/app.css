@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=EB+Garamond:ital@0;1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-garamond: 'EB Garamond', serif;
+}
+
+@layer base {
+  html {
+    color: #1f2937;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-montserrat);
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  gap: 1rem;
+  will-change: transform;
+}
+
+.embla__slide {
+  position: relative;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 48%;
+    max-width: 48%;
+  }
+}

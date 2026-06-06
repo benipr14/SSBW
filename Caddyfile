@@ -1,0 +1,10 @@
+:80 {
+
+  handle_path /* {
+    reverse_proxy tienda-prado:3000
+  }
+			
+  log {
+    output stdout
+  }
+}

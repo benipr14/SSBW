@@ -1,0 +1,8 @@
+---
+import LayoutPrado from '../layouts/LayoutPrado.astro';
+import CarrouselSSG from '../components/CarrouselSSG';
+import productos from '../data/productos.json';
+---
+<LayoutPrado title="SSBW · Carrousel SSG">
+  <CarrouselSSG productos={productos} client:load />
+</LayoutPrado>

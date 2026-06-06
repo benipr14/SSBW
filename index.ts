@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
@@ -14,6 +14,12 @@ import logger from "./logger.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const port = Number(process.env.PORT ?? 3000);
+const defaultOrigins = ["http://localhost:5173", "http://localhost:4321"];
+const configuredOrigins = (process.env.FRONTEND_ORIGIN ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = configuredOrigins.length > 0 ? configuredOrigins : defaultOrigins;
 
 const app = express();
 app.set("view engine", "njk");
@@ -29,7 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/public/imagenes", express.static(path.join(__dirname, "imagenes")));
 
 app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN ?? "http://localhost:5173",
+  origin: allowedOrigins,
   credentials: true
 }));
 

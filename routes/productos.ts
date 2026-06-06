@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { type Request, type Response } from "express";
 import prisma from "../prisma/prisma.client.ts";
 import logger from "../logger.ts";
 
@@ -51,15 +51,15 @@ router.get("/buscar", async (req: Request, res: Response) => {
   try {
     const records = termino
       ? await prisma.producto.findMany({
-          select: {
-            id: true,
-            título: true,
-            precio: true,
-            imagen: true,
-            descripción: true
-          },
-          orderBy: { id: "asc" }
-        })
+        select: {
+          id: true,
+          título: true,
+          precio: true,
+          imagen: true,
+          descripción: true
+        },
+        orderBy: { id: "asc" }
+      })
       : [];
 
     const termNorm = normalize(termino);

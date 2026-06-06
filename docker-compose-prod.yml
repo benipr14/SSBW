@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=yo
+      - POSTGRES_PASSWORD=una_clave_muy_segura_123
+      - POSTGRES_DB=ssbw
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  tienda-prado:
+    build: .
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  tienda-astro:
+    build: 
+      context: ./astro-site
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 4321:4321
+
+  caddy:
+    image: caddy:alpine
+    depends_on:
+      - db
+      - tienda-prado
+    ports:
+      - 80:80
+    volumes:
+      - caddy-config:/config
+      - caddy-data:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+
+volumes:
+  postgres_data:
+  caddy-config:
+  caddy-data:

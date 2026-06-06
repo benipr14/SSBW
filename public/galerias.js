@@ -81,7 +81,7 @@ class Cuadros {
     this.data = null;
     this.loading = false;
     this.error = null;
-    this.apiUrl = "http://localhost:3000/api/imagen-aleatoria";
+    this.apiUrl = "/api/imagen-aleatoria";
     this.render();
     this.loadImage();
   }
@@ -127,9 +127,9 @@ class Cuadros {
       console.log("Cuadros: Respuesta recibida, status:", response.status);
       if (!response.ok) throw new Error(`Error ${response.status} al cargar la imagen`);
       const result = await response.json();
-      
+
       console.log("Cuadros: JSON parseado:", result);
-      
+
       // El endpoint devuelve { titulo, imagenUrl } directamente
       if (result.titulo && result.imagenUrl) {
         this.data = {
@@ -143,7 +143,7 @@ class Cuadros {
       } else {
         throw new Error("Formato de respuesta inesperado");
       }
-      
+
       this.loading = false;
       this.updateUI();
     } catch (err) {

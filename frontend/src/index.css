@@ -22,3 +22,34 @@
     font: inherit;
   }
 }
+
+/* Embla carousel minimal styles */
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  gap: 1rem;
+  will-change: transform;
+}
+
+.embla__slide {
+  position: relative;
+  /* Each slide takes full viewport by default so embla can translate */
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* Show two slides side-by-side on wider screens */
+@media (min-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 48%;
+    max-width: 48%;
+  }
+}
+
+.embla__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
